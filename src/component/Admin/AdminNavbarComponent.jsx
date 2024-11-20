@@ -1,25 +1,44 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom';
 
 function AdminNavbarComponent() {
   return (
-    <nav id="sidebar" className="col-md-3 col-lg-2 d-md-block bg-light sidebar" style={{height:'100vh'}}>
-    <div className="position-sticky" >
-        <h5 className="text-center">Admin Dashboard</h5>
-        <ul className="nav flex-column">
-
-            <li className="nav-item">
-                <a className="nav-link" href="#">
-                    Quản lý Dịch vụ
-                </a>
-                <a className="nav-link" href="/">
-                    Thoát
-                </a>
-            </li>
-           
-        </ul>
-    </div>
-</nav>
+    <nav className="admin-navbar">
+      {/* <NavLink to="/admin/dashboard">Dashboard</NavLink> */}
+      <NavLink 
+        to="/admin/services"
+        className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+      >
+        Quản lý dịch vụ
+      </NavLink>
+      <NavLink 
+        to="/"
+        className={({ isActive }) => isActive ? "nav-link active" : "nav-link"}
+      >
+        Thoát
+      </NavLink>
+      {/* <NavLink to="/admin/products">Quản lý sản phẩm</NavLink> */}
+    </nav>
   )
+}
+
+// Thêm CSS inline hoặc trong file CSS riêng
+const styles = {
+  '.admin-navbar': {
+    padding: '1rem',
+    backgroundColor: '#f8f9fa',
+    borderBottom: '1px solid #dee2e6',
+  },
+  '.nav-link': {
+    padding: '0.5rem 1rem',
+    textDecoration: 'none',
+    color: '#333',
+    marginRight: '1rem',
+  },
+  '.nav-link.active': {
+    color: '#007bff',
+    fontWeight: 'bold',
+  }
 }
 
 export default AdminNavbarComponent

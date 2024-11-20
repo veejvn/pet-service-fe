@@ -13,7 +13,7 @@ function HomePage() {
       <>
         <HeroComponent />
         <AboutComponent />
-        <ServicesComponent />
+        <ServicesComponent limit={3} />
         <OfferComponent />
         <PricingPlanComponent />
         <TeamComponent />

@@ -1,68 +1,48 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import AdminNavbarComponent from '../../component/Admin/AdminNavbarComponent';
+import AdminServiceComponent from '../../component/Admin/AdminServiceComponent';
+// Import các component khác ở đây
 
 const AdminPage = () => {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        navigate('/');
+    };
+
     return (
         <div className="container-fluid">
             <div className="row">
                 {/* Sidebar */}
-                <AdminNavbarComponent/>
+                <div className="col-md-2 min-vh-100 bg-dark">
+                    <nav className="nav flex-column">
+                        <a className="nav-link text-white" data-bs-toggle="tab" href="#dashboard">Dashboard</a>
+                        <a className="nav-link text-white" data-bs-toggle="tab" href="#services">Quản lý Dịch vụ</a>
+                        <a className="nav-link text-white" data-bs-toggle="tab" href="#users">Quản lý Người dùng</a>
+                        <a className="nav-link text-white mt-auto" onClick={handleLogout}>
+                            <i className="fas fa-sign-out-alt me-2"></i>
+                            Thoát
+                        </a>
+                    </nav>
+                </div>
 
                 {/* Main content */}
-                <main className="col-md-9 ms-sm-auto col-lg-10 px-4">
-                    <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h1 className="h2">Dashboard</h1>
-                        
-                    </div>
-
-                    <h2>Tổng quan</h2>
-                    <div className="row">
-                        <div className="col-md-4">
-                            <div className="card mb-4">
-                                <div className="card-body">
-                                    <h5 className="card-title">Dịch vụ</h5>
-                                    <p className="card-text">20 dịch vụ đã được đăng.</p>
-                                </div>
-                            </div>
+                <div className="col-md-10 p-4">
+                    <div className="tab-content">
+                        <div className="tab-pane fade show active" id="dashboard">
+                            <h3>Dashboard</h3>
+                            {/* Nội dung Dashboard */}
                         </div>
-                       
+                        <div className="tab-pane fade" id="services">
+                            <AdminServiceComponent />
+                        </div>
+                        <div className="tab-pane fade" id="users">
+                            <h3>Quản lý Người dùng</h3>
+                            {/* Component quản lý người dùng */}
+                        </div>
                     </div>
-
-                    <h2>Danh sách Dịch vụ</h2>
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Tên Dịch vụ</th>
-                                <th scope="col">Mô tả</th>
-                                <th scope="col">Giá</th>
-                                <th scope="col">Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Dịch vụ 1</td>
-                                <td>Mô tả dịch vụ 1</td>
-                                <td>$50</td>
-                                <td>
-                                    <button className="btn btn-warning btn-sm">Sửa</button>
-                                    <button className="btn btn-danger btn-sm">Xóa</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Dịch vụ 2</td>
-                                <td>Mô tả dịch vụ 2</td>
-                                <td>$75</td>
-                                <td>
-                                    <button className="btn btn-warning btn-sm">Sửa</button>
-                                    <button className="btn btn-danger btn-sm">Xóa</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </main>
+                </div>
             </div>
         </div>
     );

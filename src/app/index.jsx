@@ -13,7 +13,7 @@ function App() {
                 const Page=route.page
                 const Layout=route.isShowHeader? DefaultComponent:Fragment
                 return(
-                 <Route  path={route.path} element={
+                 <Route  key={route.path} path={route.path} element={
                   <Layout>
                     <Page/>
                   </Layout>}

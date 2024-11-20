@@ -1,3 +1,4 @@
+import AdminServiceComponent from "../component/Admin/AdminServiceComponent";
 import AboutPage from "../pages/About/AboutPage";
 import AdminPage from "../pages/Admin/AdminPage";
 import ContactPage from "../pages/Contact/ContactPage";
@@ -44,5 +45,11 @@ export const routes = [
         path:'/admin',
         page:AdminPage,
 
-    }
+    },
+    // {
+    //     path:'/admin/services',
+    //     page:AdminServiceComponent,
+
+    // }
 ]
+
