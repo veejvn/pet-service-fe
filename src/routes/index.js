@@ -6,50 +6,54 @@ import HomePage from "../pages/Home/HomePage";
 import ProductsPage from "../pages/Products/ProductsPage";
 import ServiceDetail from "../pages/ServiceDetail/ServicesDetail";
 import ServicesPage from "../pages/Services/ServicesPage";
+import Login from "../pages/Auth/Login";
+
+import DefaultComponent from '../component/Layout/Default/DefaultComponent';
+import AuthLayout from "../component/Layout/AuthLayout";
 
 export const routes = [
     {
         path:'/',
         page:HomePage,
-        isShowHeader:true
+        layout: DefaultComponent
     },
     {
         path:'/services',
         page:ServicesPage,
-        isShowHeader:true
+        layout: DefaultComponent
 
     },
     {
         path:'/service/:id',
         page:ServiceDetail,
-        isShowHeader:true
+        layout: DefaultComponent
 
     },
     {
         path:'/contact',
         page:ContactPage,
-        isShowHeader:true
+        layout: DefaultComponent
 
     },
     {
         path:'/about',
         page:AboutPage,
-        isShowHeader:true
+        layout: DefaultComponent
     },
     {
         path:'/product',
         page:ProductsPage,
-        isShowHeader:true
+        layout: DefaultComponent
     },
     {
         path:'/admin',
         page:AdminPage,
 
     },
-    // {
-    //     path:'/admin/services',
-    //     page:AdminServiceComponent,
-
-    // }
+    {
+        path:'/login',
+        page:Login,
+        layout: AuthLayout
+    }
 ]
 
