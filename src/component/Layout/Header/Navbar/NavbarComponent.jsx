@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import classNames from 'classnames'
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 function NavbarComponent() {
   const [isSticky, setIsSticky] = useState(false);
 
@@ -39,46 +38,14 @@ function NavbarComponent() {
     </button>
     <div className="collapse navbar-collapse" id="navbarCollapse">
       <div className="navbar-nav ms-auto py-0">
-        <a href="/" className="nav-item nav-link active">
-          Trang chủ
-        </a>
-        <a href="/about" className="nav-item nav-link">
-          Về chúng tôi
-        </a>
-        <a href="/services" className="nav-item nav-link">
-          Dịch vụ
-        </a>
-        {/* <div className="nav-item dropdown">
-          <a
-            href="#"
-            className="nav-link dropdown-toggle"
-            data-bs-toggle="dropdown"
-          >
-            Pages
-          </a>
-          <div className="dropdown-menu m-0">
-            <a href="price.html" className="dropdown-item">
-              Pricing Plan
-            </a>
-            <a href="team.html" className="dropdown-item">
-              The Team
-            </a>
-            <a href="testimonial.html" className="dropdown-item">
-              Testimonial
-            </a>
-            <a href="blog.html" className="dropdown-item">
-              Blog Grid
-            </a>
-            <a href="detail.html" className="dropdown-item">
-              Blog Detail
-            </a>
-          </div>
-        </div> */}
+        <NavLink to={"/"} className={({isActive}) => isActive ? "nav-item nav-link active" : "nav-item nav-link"}>Trang chủ</NavLink>
+        <NavLink to={"/about"} className={({isActive}) => isActive ? "nav-item nav-link active" : "nav-item nav-link"}>Về chúng tôi</NavLink>
+        <NavLink to={"/services"} className={({isActive}) => isActive ? "nav-item nav-link active" : "nav-item nav-link"}>Dịch vụ</NavLink>
         <a
-          href="/contact"
+          href="/login"
           className="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5"
         >
-          Liên Hệ <i className="bi bi-arrow-right" />
+          Đăng nhập
         </a>
       </div>
     </div>
