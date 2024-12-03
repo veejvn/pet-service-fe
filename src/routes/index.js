@@ -9,49 +9,51 @@ import Login from "../pages/Auth/Login";
 
 import DefaultComponent from '../component/Layout/Default/DefaultComponent';
 import AuthLayout from "../component/Layout/AuthLayout";
+import Logout from "../pages/auth/Logout";
+import { Fragment } from "react";
 
 export const routes = [
     {
         path:'/',
-        page:HomePage,
-        layout: DefaultComponent
+        Page:HomePage,
+        Layout: DefaultComponent
     },
     {
         path:'/services',
-        page:ServicesPage,
-        layout: DefaultComponent
+        Page:ServicesPage,
+        Layout: DefaultComponent
 
     },
     {
         path:'/service/:id',
-        page:ServiceDetail,
-        layout: DefaultComponent
+        Page:ServiceDetail,
+        Layout: DefaultComponent
 
     },
     {
         path:'/contact',
-        page:ContactPage,
-        layout: DefaultComponent
+        Page:ContactPage,
+        Layout: DefaultComponent
 
     },
     {
         path:'/about',
-        page:AboutPage,
-        layout: DefaultComponent
+        Page:AboutPage,
+        Layout: DefaultComponent
     },
     {
         path:'/product',
-        page:ProductsPage,
-        layout: DefaultComponent
-    },
-    {
-        path:'/admin',
-        page:AdminPage,
-
+        Page:ProductsPage,
+        Layout: DefaultComponent
     },
     {
         path:'/login',
-        page:Login,
-        layout: AuthLayout
+        Page:Login,
+        Layout: AuthLayout
+    },
+    {
+        path:'/logout',
+        Page:Logout,
+        Layout: Fragment
     }
 ]

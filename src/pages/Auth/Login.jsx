@@ -2,13 +2,17 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import AuthService from "../../service/auth.service";
 import useMessageByApiCode from "../../hooks/useMessageByApiCode";
+import { setTokens} from "../../redux/slices/auth.slice";
 
 const Login = () => {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
+    const dispatch = useDispatch();
+    const redirect = useSelector((state) => state.auth.redirect)
     const getMessage = useMessageByApiCode();
     const navigate = useNavigate();
 
@@ -43,6 +47,8 @@ const Login = () => {
         })
         const tokens = result.data;
         dispatch(setTokens(tokens));
+        localStorage.setItem("accessToken", result.data.accessToken);
+        localStorage.setItem("refreshToken", result.data.refreshToken);
         navigate(redirect);
     }
 
@@ -88,7 +94,7 @@ const Login = () => {
                         </div>
                         <p className="text-danger mb-4">{errorMessage}</p>
                         <div className="d-flex align-items-center justify-content-between">
-                            <Link to="/forgot-password" className="text-sm text-primary text-decoration-underline">Quên mật khẩu?</Link>
+                            <Link to="/forgot-password" className="text-primary fs-5">Quên mật khẩu?</Link>
                         </div>
                         <button
                             type="submit"
@@ -100,11 +106,11 @@ const Login = () => {
                         <div className="d-flex">
                             <p className="mx-auto small text-muted">
                                 Bạn chưa có tài khoản?
-                                <Link to="/register" className="text-primary text-decoration-underline"> Đăng kí ngay</Link>
+                                <Link to="/register" className="text-primary fs-5"> Đăng kí ngay</Link>
                             </p>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
-                            <Link to="/" className="text-primary text-decoration-underline">Về trang chủ</Link>
+                            <Link to="/" className="text-primary fs-4">Về trang chủ</Link>
                         </div>
                     </form>
                 </div>

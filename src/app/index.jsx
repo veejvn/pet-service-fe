@@ -1,18 +1,19 @@
-import { Fragment } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import { routes } from '../routes'
 import "./global.css";
+import useInitialApp from '../hooks/useInitialAp';
 
 function App() {
+  useInitialApp();
   return (
     <div>
       <Router>
         <Routes>
           {routes.map((route) => {
-            const Page = route.page
-            const Layout = route.layout
+            const { Page, Layout, path } = route;
             return (
-              <Route path={route.path} element={
+              <Route key={uuidv4} path={path} element={
                 <Layout>
                   <Page />
                 </Layout>}
