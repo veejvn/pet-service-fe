@@ -13,6 +13,7 @@ import { Fragment } from "react";
 import Register from "../pages/auth/Register";
 import ReceiveTokens from "../pages/auth/ReceiveTokens";
 import ForgotPassword from "../pages/auth/ForgotPassword";
+import Pet from "../pages/Pet";
 import Account from "../pages/Account";
 
 export const routes = [
@@ -73,6 +74,11 @@ export const routes = [
         path:'/logout',
         Page:Logout,
         Layout: Fragment
+    },
+    {
+        path:'/pet/:page',
+        Page:Pet,
+        Layout: DefaultComponent
     },
     {
         path:'/account/:page',
