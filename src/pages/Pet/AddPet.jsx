@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-unused-vars
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const UpdatePet = () => {
-  const { petId } = useParams(); // Get pet ID from URL
+const AddPet = () => {
   const navigate = useNavigate();
 
   // State for pet data
@@ -14,39 +13,23 @@ const UpdatePet = () => {
     age: "",
     description: "",
     species: "",
-    image: "",
+    image: "", // URL or file path after upload
   });
 
+  const [imageFile, setImageFile] = useState(null); // State for uploaded image file
   const [speciesList, setSpeciesList] = useState([]); // List of species options
 
-  // Fetch pet data on component load
+  // Fetch species list on component load
   useEffect(() => {
-    // Simulate fetching pet details from API
-    const fetchPetData = async () => {
-      // Replace with your actual API call
-      const petDetails = {
-        id: petId,
-        name: "Mắm Tôm",
-        weight: 5,
-        age: "12 tháng",
-        description: "Tao là mèo",
-        species: "Chó",
-        image: "/src/assets/img/biduu.jpg",
-      };
-
-      setPetData(petDetails);
-    };
-
-    // Fetch species list (optional)
+    // Simulate fetching species list from API
     const fetchSpeciesList = async () => {
       // Replace with actual API call
       const species = ["Chó", "Mèo", "Cá", "Chim"];
       setSpeciesList(species);
     };
 
-    fetchPetData();
     fetchSpeciesList();
-  }, [petId]);
+  }, []);
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -54,20 +37,47 @@ const UpdatePet = () => {
     setPetData({ ...petData, [name]: value });
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Updated Pet Data:", petData);
+  // Handle image file selection
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
 
-    // Simulate API call to update pet data
-    // Replace this with your API logic
-    alert(`Pet "${petData.name}" has been updated successfully!`);
-    navigate("/pet/list"); // Redirect to pet list
+    // Optionally, create a preview URL for the uploaded file
+    const imageUrl = URL.createObjectURL(file);
+    setPetData({ ...petData, image: imageUrl });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Simulate API call to upload image and save pet data
+    const formData = new FormData();
+    formData.append("name", petData.name);
+    formData.append("weight", petData.weight);
+    formData.append("age", petData.age);
+    formData.append("description", petData.description);
+    formData.append("species", petData.species);
+    if (imageFile) {
+      formData.append("image", imageFile); // Add image file to form data
+    }
+
+    try {
+      // Replace with your actual API call
+      console.log("Sending form data to server...");
+      console.log(formData);
+
+      alert(`Pet "${petData.name}" has been added successfully!`);
+      navigate("/pet/list"); // Redirect to pet list
+    } catch (error) {
+      console.error("Error adding pet:", error);
+      alert("Failed to add pet. Please try again.");
+    }
   };
 
   return (
     <div className="container mt-5">
-      <h1 className="text-center mb-4">Cập Nhật Thông Tin Pet</h1>
+      <h1 className="text-center mb-4">Thêm Pet Mới</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
@@ -99,7 +109,7 @@ const UpdatePet = () => {
         </div>
         <div className="mb-3">
           <label htmlFor="age" className="form-label">
-            Tuổi (tháng)
+            Tuổi (hoặc tháng)
           </label>
           <input
             type="text"
@@ -154,7 +164,7 @@ const UpdatePet = () => {
             id="image"
             name="image"
             accept="image/*"
-            onChange={handleInputChange}
+            onChange={handleFileChange}
           />
           {petData.image && (
             <div className="mt-3">
@@ -167,8 +177,8 @@ const UpdatePet = () => {
           )}
         </div>
         <div className="text-center">
-          <button type="submit" className="btn btn-primary">
-            Lưu Thay Đổi
+          <button type="submit" className="btn btn-success">
+            Thêm Pet
           </button>
           <button
             type="button"
@@ -183,4 +193,4 @@ const UpdatePet = () => {
   );
 };
 
-export default UpdatePet;
+export default AddPet;

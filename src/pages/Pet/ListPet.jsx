@@ -14,27 +14,27 @@ const ListPet = () => {
       species: { id: "1", name: "Chó" },
       image: "/src/assets/img/biduu.jpg",
     },
-    // Thêm dữ liệu pet khác tại đây
+    // Add more pet objects here
   ];
 
   const handleDelete = (id) => {
     console.log(`Deleting pet with ID: ${id}`);
-    // Thêm logic xóa pet tại đây (API hoặc cập nhật state)
+    // Add delete logic here (API call or state update)
   };
 
   return (
     <div className="container mt-5">
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h1 className="text-center">Your Pets List</h1>
-        {/* Nút thêm pet mới */}
-        <Link to="/pet/create-pet" className="btn btn-success">
+        {/* Button to add a new pet */}
+        <Link to="/pet/add-pet" className="btn btn-success">
           Thêm Pet Mới
         </Link>
       </div>
       <div className="row">
         {pets.map((pet) => (
           <div className="col-md-4 mb-4" key={pet.id}>
-            <div className="card h-100">
+            <div className="card h-100 shadow-sm">
               <img
                 src={pet.image}
                 className="card-img-top"
@@ -57,7 +57,7 @@ const ListPet = () => {
                 </p>
                 <div className="d-flex justify-content-between">
                   <Link
-                    to={`/pet/update-pet/${pet.id}`}
+                    to={`/pet/update-pet`} //
                     className="btn btn-primary btn-sm"
                   >
                     Cập nhật
@@ -74,7 +74,7 @@ const ListPet = () => {
               </div>
             </div>
 
-            {/* Modal xác nhận xóa */}
+            {/* Modal for delete confirmation */}
             <div
               className="modal fade"
               id={`modal-${pet.id}`}
@@ -82,13 +82,22 @@ const ListPet = () => {
               aria-labelledby={`modalLabel-${pet.id}`}
               aria-hidden="true"
             >
-              <div className="modal-dialog">
+              <div className="modal-dialog modal-dialog-centered">
                 <div className="modal-content">
-                  <div className="modal-body">
+                  <div className="modal-header">
                     <h5
                       className="modal-title"
                       id={`modalLabel-${pet.id}`}
-                    >{`Bạn có chắc muốn xóa ${pet.name}?`}</h5>
+                    >{`Xóa Pet: ${pet.name}`}</h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div className="modal-body">
+                    <p>{`Bạn có chắc muốn xóa "${pet.name}" khỏi danh sách?`}</p>
                   </div>
                   <div className="modal-footer">
                     <button
@@ -96,7 +105,7 @@ const ListPet = () => {
                       className="btn btn-secondary"
                       data-bs-dismiss="modal"
                     >
-                      Thoát
+                      Hủy
                     </button>
                     <button
                       type="button"

@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import ListPet from "./ListPet";
-import CreatePet from "./CreatePet";
 import UpdatePet from "./UpdatePet";
+import AddPet from "./AddPet";
 
 
 const page = {
     "list-pet": ListPet,
-    "create-pet": CreatePet,
+    "add-pet": AddPet,
     "update-pet": UpdatePet,
 }
 
