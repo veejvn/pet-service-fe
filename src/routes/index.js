@@ -1,6 +1,5 @@
 import AdminServiceComponent from "../component/Admin/AdminServiceComponent";
 import AboutPage from "../pages/About/AboutPage";
-import AdminPage from "../pages/Admin/AdminPage";
 import ContactPage from "../pages/Contact/ContactPage";
 import HomePage from '../pages/Home/HomePage';
 import ProductsPage from "../pages/Products/ProductsPage";
@@ -10,51 +9,71 @@ import Login from "../pages/Auth/Login";
 import CartPage from "../pages/Cart/CartPage";
 import DefaultComponent from '../component/Layout/Default/DefaultComponent';
 import AuthLayout from "../component/Layout/AuthLayout";
+import Logout from "../pages/auth/Logout";
+import { Fragment } from "react";
+import Register from "../pages/auth/Register";
+import ReceiveTokens from "../pages/auth/ReceiveTokens";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 import MyRecieptPage from "../pages/Reciept/MyRecieptPage";
 
 export const routes = [
     {
         path:'/',
-        page:HomePage,
-        layout: DefaultComponent,
+        Page:HomePage,
+        Layout: DefaultComponent
     },
     {
         path:'/services',
-        page:ServicesPage,
-        layout: DefaultComponent
+        Page:ServicesPage,
+        Layout: DefaultComponent
 
     },
     {
         path:'/service/:id',
-        page:ServiceDetail,
-        layout: DefaultComponent
+        Page:ServiceDetail,
+        Layout: DefaultComponent
 
     },
     {
         path:'/contact',
-        page:ContactPage,
-        layout: DefaultComponent
+        Page:ContactPage,
+        Layout: DefaultComponent
 
     },
     {
         path:'/about',
-        page:AboutPage,
-        layout: DefaultComponent
+        Page:AboutPage,
+        Layout: DefaultComponent
     },
     {
         path:'/product',
-        page:ProductsPage,
-        layout: DefaultComponent
+        Page:ProductsPage,
+        Layout: DefaultComponent
     },
     {
-        path:'/admin',
-        page:AdminPage,
-
+        path:'/register',
+        Page:Register,
+        Layout: AuthLayout
     },
     {
         path:'/login',
-        page:Login,
-        layout: AuthLayout
+        Page:Login,
+        Layout: AuthLayout
+    },
+    {
+        path:'/forgot-password',
+        Page:ForgotPassword,
+        Layout: AuthLayout
+    },
+    {
+        path:'/auth/receive-tokens',
+        Page:ReceiveTokens,
+        Layout: Fragment
+    },
+    {
+        path:'/logout',
+        Page:Logout,
+        Layout: Fragment
     },
     {
         path:'/cart',

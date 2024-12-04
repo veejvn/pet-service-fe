@@ -1,21 +1,16 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthService from "../../service/auth.service";
-import useMessageByApiCode from "../../hooks/useMessageByApiCode";
-import { setTokens} from "../../redux/slices/auth.slice";
+import AuthService from "../../../service/auth.service";
+import useMessageByApiCode from "../../../hooks/useMessageByApiCode";
 
-const Login = () => {
+const ForgotPasswordStep1 = ({onNext}) => {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
-    const redirect = useSelector((state) => state.auth.redirect)
     const getMessage = useMessageByApiCode();
-    const navigate = useNavigate();
 
     const handleChange = (name, value) => {
         setErrors({
@@ -30,12 +25,8 @@ const Login = () => {
         handleChange("email", e.target.value)
     });
 
-    const handleChangePassword = ((e) => {
-        handleChange("password", e.target.value)
-    });
-
     const onSubmit = async (data) => {
-        const [result, error] = await AuthService.login(data);
+        const [result, error] = await AuthService.forgotPassword(data);
         if (error) {
             setErrorMessage(getMessage(error.code));
             toast.error(getMessage(error.code), {
@@ -46,9 +37,7 @@ const Login = () => {
         toast.success(getMessage(result.code), {
             autoClose: 3000,
         })
-        const tokens = result.data;
-        dispatch(setTokens(tokens));
-        navigate(redirect);
+        onNext();
     }
 
     const handleSubmit = async (e) => {
@@ -64,8 +53,9 @@ const Login = () => {
             <div className="bg-white rounded shadow border-md mt-0 sm-max-w-md p-0">
                 <div className="p-4 space-y-4 md-space-y-6">
                     <h1 className="h5 fw-bold text-gray-900">
-                        Đăng nhập
+                        Quên mật khẩu
                     </h1>
+                    <div className="fs-6 text-primary">Nhập email của bạn để nhận mã xác nhận</div>
                     <form className="space-y-4 md-space-y-6" onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label htmlFor="email" className="form-label">Email</label>
@@ -79,29 +69,20 @@ const Login = () => {
                                 onChange={(e) => handleChangeEmail(e)}
                             />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="password" className="form-label">Mật khẩu</label>
-                            <input
-                                type="password"
-                                name="password"
-                                id="password"
-                                className="form-control rounded"
-                                placeholder="••••••••"
-                                required
-                                onChange={(e) => handleChangePassword(e)}
-                            />
-                        </div>
                         <p className="text-danger mb-4">{errorMessage}</p>
-                        <div className="d-flex align-items-center justify-content-between">
-                            <Link to="/forgot-password" className="text-primary fs-5">Quên mật khẩu?</Link>
-                        </div>
                         <button
                             type="submit"
                             className={`btn btn-primary w-100 rounded ${loading ? "disabled" : ""}`}
                             disabled={loading}
                         >
-                            {loading ? "Đang xử lý..." : "Đăng nhập"}
+                            {loading ? "Đang xử lý..." : "Xác nhận"}
                         </button>
+                        <div className="d-flex mt-4">
+                            <p className="mx-auto small text-muted">
+                                Bạn đã có tài khoản?
+                                <Link to="/login" className="text-primary fs-5"> Đăng nhập ngay</Link>
+                            </p>
+                        </div>
                         <div className="d-flex">
                             <p className="mx-auto small text-muted">
                                 Bạn chưa có tài khoản?
@@ -118,4 +99,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default ForgotPasswordStep1;
