@@ -87,8 +87,6 @@ export const routes = [
         Page:Account,
         Layout: DefaultComponent
     },
-
-]
     {
         path:'/cart',
         Page:CartPage,
