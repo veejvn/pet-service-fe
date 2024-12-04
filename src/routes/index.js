@@ -2,20 +2,21 @@ import AdminServiceComponent from "../component/Admin/AdminServiceComponent";
 import AboutPage from "../pages/About/AboutPage";
 import AdminPage from "../pages/Admin/AdminPage";
 import ContactPage from "../pages/Contact/ContactPage";
-import HomePage from "../pages/Home/HomePage";
+import HomePage from '../pages/Home/HomePage';
 import ProductsPage from "../pages/Products/ProductsPage";
 import ServiceDetail from "../pages/ServiceDetail/ServicesDetail";
 import ServicesPage from "../pages/Services/ServicesPage";
 import Login from "../pages/Auth/Login";
-
+import CartPage from "../pages/Cart/CartPage";
 import DefaultComponent from '../component/Layout/Default/DefaultComponent';
 import AuthLayout from "../component/Layout/AuthLayout";
+import MyRecieptPage from "../pages/Reciept/MyRecieptPage";
 
 export const routes = [
     {
         path:'/',
         page:HomePage,
-        layout: DefaultComponent
+        layout: DefaultComponent,
     },
     {
         path:'/services',
@@ -54,6 +55,17 @@ export const routes = [
         path:'/login',
         page:Login,
         layout: AuthLayout
+    },
+    {
+        path:'/cart',
+        page:CartPage,
+        layout: DefaultComponent
+    },
+    {
+        path:'/myReciept/:id',
+        page:MyRecieptPage,
+        layout: DefaultComponent
     }
+
 ]
 

@@ -1,8 +1,9 @@
-// components/ServiceDetail.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import { getServiceById } from '../../services/ServiceServce';
+import { StyledButton } from '../../app/global_antd';
+import { createCartItem } from '../../services/CartService';
 
 function ServiceDetail() {
   const { id } = useParams();
@@ -15,6 +16,7 @@ function ServiceDetail() {
     const fetchService = async () => {
       try {
         const response = await getServiceById(id);
+        console.log(response.data.data);
         setService(response.data.data);
       } catch (err) {
         setError('Không thể tải thông tin dịch vụ');
@@ -29,15 +31,45 @@ function ServiceDetail() {
   if (loading) return <div>Đang tải...</div>;
   if (error) return <div>{error}</div>;
   if (!service) return <h2>Dịch vụ không tồn tại</h2>;
-  console.log('service',service);
+  const handleBooking = async () => {
+    // Đảm bảo có thông tin dịch vụ và người dùng đã đăng nhập (nếu cần)
+    if (!service) {
+      alert('Dịch vụ không hợp lệ');
+      return;
+    }
+
+    try {
+      const cartItem = {
+        serviceId: service.id,
+        name: service.name,
+        description: service.description,
+        price: service.price,
+        quantity: 1, // Giả sử người dùng chọn 1 dịch vụ
+      };
+
+      const response = await createCartItem(cartItem); // Gọi API để thêm vào giỏ hàng
+      if (response) {
+        alert('Dịch vụ đã được thêm vào giỏ hàng');
+        navigate('/cart'); // Điều hướng người dùng đến trang giỏ hàng
+      }
+    } catch (err) {
+      console.error('Error adding to cart:', err);
+      alert('Có lỗi xảy ra khi thêm vào giỏ hàng');
+    }
+  };
   return (
     <Container className="mt-5">
       <Row>
         <Col md={6}>
           <img 
-            src={service.images[0]?.url || '/default-image.jpg'} 
+            src={service.image || '/default-image.jpg'} 
             alt={service.name} 
             className="img-fluid rounded" 
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover' 
+            }} 
           />
         </Col>
         <Col md={6}>
@@ -47,8 +79,11 @@ function ServiceDetail() {
             style: 'currency',
             currency: 'VND'
           }).format(service.price)}</p>
-          {/* <p><strong>Ngày tạo:</strong> {new Date(service.createAt).toLocaleDateString('vi-VN')}</p> */}
-          <Button onClick={() => navigate(-1)} className="mt-3">Quay lại</Button>
+          <div>
+            <StyledButton onClick={handleBooking} className="mt-3">Đặt lịch hẹn</StyledButton>
+            {/* <StyledButton onClick={() => navigate(-1)} className="mt-3">Quay lại</StyledButton> */}
+          </div>
+          {/* <StyledButton style={{marginLeft:"20px"}} className="mt-3">Đặt lịch hẹn</StyledButton> */}
         </Col>
       </Row>
     </Container>

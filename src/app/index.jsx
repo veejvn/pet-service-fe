@@ -1,7 +1,7 @@
-import { Fragment } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { routes } from '../routes'
 import "./global.css";
+import "./global_antd.js";
+import { routes } from '../routes/index.js';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
             const Page = route.page
             const Layout = route.layout
             return (
-              <Route path={route.path} element={
+              <Route key={route.path} path={route.path} element={
                 <Layout>
                   <Page />
                 </Layout>}

@@ -1,32 +1,46 @@
-// components/ServicesComponent.js
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getAllServices } from '../../services/ServiceServce';
 
-function ServicesComponent({ limit }) {
+function ServicesComponent({ limit = 20 }) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(0); // Trạng thái trang hiện tại
+  const [totalPages, setTotalPages] = useState(0); // Tổng số trang
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await getAllServices();
-        const limitedServices = response.data.data.services.slice(0, limit);
-        setServices(limitedServices);
+        const response = await getAllServices(currentPage, limit);
+        console.log('API Response:', response.data.data); // Xem dữ liệu API trả về
+        const { services, totalPages } = response.data.data;
+  
+        // Kiểm tra nếu services hoặc totalPages bị undefined
+        if (!services || !totalPages) {
+          throw new Error('Dữ liệu không hợp lệ');
+        }
+  
+        setServices(services);
+        setTotalPages(totalPages);
       } catch (err) {
         setError(err.message);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchServices();
-  }, [limit]);
-console.log('services',services);
+  }, [currentPage, limit]);
+  
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   if (loading) return <div>Đang tải...</div>;
   if (error) return <div>Lỗi: {error}</div>;
-
+console.log(services)
   return (
     <div className="container-fluid py-5">
       <div className="container">
@@ -40,12 +54,12 @@ console.log('services',services);
           </h1>
         </div>
         <div className="row g-4">
-          {Array.isArray(services) && services.length > 0 ? (
+          {services.length > 0 ? (
             services.map((service) => (
               <div className="col-lg-4 col-md-6" key={service.id}>
                 <div className="card h-100 shadow-sm d-flex flex-column">
                   <img 
-                    src={service.images[0]?.url || '/images/default-service.jpg'} 
+                    src={service.image|| '/images/default-service.jpg'} 
                     className="card-img-top" 
                     alt={service.name}
                     style={{ height: '200px', objectFit: 'cover' }}
@@ -82,13 +96,29 @@ console.log('services',services);
             </div>
           )}
         </div>
+        
+        <div className="d-flex justify-content-center mt-4">
+          <nav>
+            <ul className="pagination">
+              {[...Array(totalPages)].map((_, index) => (
+                <li
+                  key={index}
+                  className={`page-item ${currentPage === index ? 'active' : ''}`}
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => handlePageChange(index)}
+                  >
+                    {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
     </div>
   );
 }
-
-ServicesComponent.defaultProps = {
-  limit: 100
-};
 
 export default ServicesComponent;
