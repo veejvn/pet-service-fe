@@ -1,0 +1,120 @@
+// eslint-disable-next-line no-unused-vars
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { Link } from "react-router-dom";
+
+const ListPet = () => {
+  const pets = [
+    {
+      id: "1",
+      name: "Mắm Tôm",
+      weight: 5,
+      age: "12 tháng",
+      description: "Tao là mèo",
+      species: { id: "1", name: "Chó" },
+      image: "/src/assets/img/biduu.jpg",
+    },
+    // Thêm dữ liệu pet khác tại đây
+  ];
+
+  const handleDelete = (id) => {
+    console.log(`Deleting pet with ID: ${id}`);
+    // Thêm logic xóa pet tại đây (API hoặc cập nhật state)
+  };
+
+  return (
+    <div className="container mt-5">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h1 className="text-center">Your Pets List</h1>
+        {/* Nút thêm pet mới */}
+        <Link to="/pet/create-pet" className="btn btn-success">
+          Thêm Pet Mới
+        </Link>
+      </div>
+      <div className="row">
+        {pets.map((pet) => (
+          <div className="col-md-4 mb-4" key={pet.id}>
+            <div className="card h-100">
+              <img
+                src={pet.image}
+                className="card-img-top"
+                alt={`Image of ${pet.name}`}
+                style={{ objectFit: "cover", height: "200px" }}
+              />
+              <div className="card-body">
+                <h5 className="card-title">{pet.name}</h5>
+                <p className="card-text">
+                  <strong>Species:</strong> {pet.species.name}
+                </p>
+                <p className="card-text">
+                  <strong>Weight:</strong> {pet.weight}kg
+                </p>
+                <p className="card-text">
+                  <strong>Age:</strong> {pet.age}
+                </p>
+                <p className="card-text text-truncate">
+                  <strong>Description:</strong> {pet.description}
+                </p>
+                <div className="d-flex justify-content-between">
+                  <Link
+                    to={`/pet/update-pet/${pet.id}`}
+                    className="btn btn-primary btn-sm"
+                  >
+                    Cập nhật
+                  </Link>
+                  <button
+                    type="button"
+                    className="btn btn-danger btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target={`#modal-${pet.id}`}
+                  >
+                    Xóa
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Modal xác nhận xóa */}
+            <div
+              className="modal fade"
+              id={`modal-${pet.id}`}
+              tabIndex="-1"
+              aria-labelledby={`modalLabel-${pet.id}`}
+              aria-hidden="true"
+            >
+              <div className="modal-dialog">
+                <div className="modal-content">
+                  <div className="modal-body">
+                    <h5
+                      className="modal-title"
+                      id={`modalLabel-${pet.id}`}
+                    >{`Bạn có chắc muốn xóa ${pet.name}?`}</h5>
+                  </div>
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-bs-dismiss="modal"
+                    >
+                      Thoát
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => handleDelete(pet.id)}
+                      data-bs-dismiss="modal"
+                    >
+                      Xóa
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ListPet;
