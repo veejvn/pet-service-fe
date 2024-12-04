@@ -22,6 +22,9 @@ const AuthService = {
   forgotPasswordVerify({code, newPassword}) {
     return service(axios.post(`${AUTH_URL}/forgot-password/verify`, { code, newPassword }));
   },
+  changePassword({currentPassword, newPassword}) {
+    return service(axios.post(`${AUTH_URL}/change-password`, { currentPassword, newPassword }));
+  },
 };
 
 export default AuthService;

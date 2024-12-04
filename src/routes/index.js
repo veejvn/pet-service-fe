@@ -14,6 +14,8 @@ import { Fragment } from "react";
 import Register from "../pages/auth/Register";
 import ReceiveTokens from "../pages/auth/ReceiveTokens";
 import ForgotPassword from "../pages/auth/ForgotPassword";
+import Pet from "../pages/Pet";
+import Account from "../pages/Account";
 import MyRecieptPage from "../pages/Reciept/MyRecieptPage";
 
 export const routes = [
@@ -75,6 +77,18 @@ export const routes = [
         Page:Logout,
         Layout: Fragment
     },
+    {
+        path:'/pet/:page',
+        Page:Pet,
+        Layout: DefaultComponent
+    },
+    {
+        path:'/account/:page',
+        Page:Account,
+        Layout: DefaultComponent
+    },
+
+]
     {
         path:'/cart',
         Page:CartPage,
