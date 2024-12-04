@@ -1,10 +1,19 @@
 import { configureStore } from "@reduxjs/toolkit";
-import authReducer from "./slices/auth.slice"
+import { setLS } from "../tools/localStorage.tool";
 
-const store = configureStore({
-    reducer: {
-        auth: authReducer,
-    }
+import authReducer from "./slices/auth.slice";
+
+const localStorageMiddleware = (store) => (next) => (action) => {
+  const result = next(action);
+  const state = store.getState();
+  setLS("auth", state.auth);
+  return result;
+};
+
+export default configureStore({
+  reducer: {
+    auth: authReducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(localStorageMiddleware),
 });
-
-export default store;

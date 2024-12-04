@@ -1,15 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
-
-const initialState = {
-  isLoggedIn: false,
-  tokens: { accessToken: "", refreshToken: "" },
-  user: null,
-  redirect: "/",
-};
+import { getLS } from "../../tools/localStorage.tool";
 
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: getLS("auth", {
+    isLoggedIn: false,
+    tokens: { accessToken: "", refreshToken: "" },
+    user: null,
+    redirect: "/",
+  }),
   reducers: {
     setIsLogin: (state, action) => {
       state.isLoggedIn = action.payload;
@@ -24,8 +23,10 @@ const authSlice = createSlice({
     setUser: (state, action) => {
       state.user = action.payload;
     },
+    setRedirect: (state, action) => {
+      state.redirect = action.payload;
+    },
     logout: (state) => {
-      state.isLoggedIn = false;
       state.tokens.accessToken = "";
       state.tokens.refreshToken = "";
       state.user = null;
@@ -33,6 +34,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setIsLogin, setTokens, setUser, setAccessToken, logout } =
+export const { setIsLogin, setTokens, setUser, setAccessToken, setRedirect, logout } =
   authSlice.actions;
 export default authSlice.reducer;

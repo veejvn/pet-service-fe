@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import store from '../../../../redux/store.redux';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import "./Navbar.css";
 import { useSelector } from 'react-redux';
 
@@ -46,8 +46,14 @@ function NavbarComponent() {
           <NavLink to={"/"} className={({ isActive }) => isActive ? "nav-item nav-link active" : "nav-item nav-link"}>Trang chủ</NavLink>
           <NavLink to={"/about"} className={({ isActive }) => isActive ? "nav-item nav-link active" : "nav-item nav-link"}>Về chúng tôi</NavLink>
           <NavLink to={"/services"} className={({ isActive }) => isActive ? "nav-item nav-link active" : "nav-item nav-link"}>Dịch vụ</NavLink>
+          {isLoggedIn && (<div className="d-flex position-relative justify-content-center align-items-center my-auto mx-4">
+            <Link to={"/cart"}>
+              <i className="bi bi-cart fs-1 text-primary" />
+              <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning'>3</span>
+            </Link>
+          </div>)}
           {isLoggedIn ?
-            <div className="d-flex justify-content-center align-items-center my-3 mx-5">
+            <div className="d-flex justify-content-center align-items-center my-3 me-5">
               <div className="dropdown">
                 <div className="avatar" data-bs-toggle="dropdown" aria-expanded="false">
                   {user?.avatar ? (
@@ -57,10 +63,11 @@ function NavbarComponent() {
                   )
                   }
                 </div>
-                <ul className="dropdown-menu dropdown-menu-end">
-                  <li><button className="dropdown-item" onclick="handleAction('Profile')">View Profile</button></li>
-                  <li><button className="dropdown-item" onclick="handleAction('Settings')">Settings</button></li>
-                  <li><button className="dropdown-item" onclick="handleAction('Logout')">Logout</button></li>
+                <ul className="dropdown-menu dropdown-menu-end rounded">
+                  <li className="dropdown-item d-flex"><div className='mx-auto'>{user?.displayName}</div></li>
+                  <li><Link to={"/profile"} className="dropdown-item">Hồ sơ</Link></li>
+                  <li><Link to={"/receipt"} className="dropdown-item">Hóa đơn</Link></li>
+                  <li><Link to={"/logout"} className="dropdown-item">Đăng xuất</Link></li>
                 </ul>
               </div>
             </div>

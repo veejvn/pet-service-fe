@@ -1,5 +1,4 @@
 import AboutPage from "../pages/About/AboutPage";
-import AdminPage from "../pages/Admin/AdminPage";
 import ContactPage from "../pages/Contact/ContactPage";
 import HomePage from "../pages/Home/HomePage";
 import ProductsPage from "../pages/Products/ProductsPage";
@@ -11,6 +10,9 @@ import DefaultComponent from '../component/Layout/Default/DefaultComponent';
 import AuthLayout from "../component/Layout/AuthLayout";
 import Logout from "../pages/auth/Logout";
 import { Fragment } from "react";
+import Register from "../pages/auth/Register";
+import ReceiveTokens from "../pages/auth/ReceiveTokens";
+import ForgotPassword from "../pages/auth/ForgotPassword";
 
 export const routes = [
     {
@@ -47,13 +49,28 @@ export const routes = [
         Layout: DefaultComponent
     },
     {
+        path:'/register',
+        Page:Register,
+        Layout: AuthLayout
+    },
+    {
         path:'/login',
         Page:Login,
         Layout: AuthLayout
     },
     {
+        path:'/forgot-password',
+        Page:ForgotPassword,
+        Layout: AuthLayout
+    },
+    {
+        path:'/auth/receive-tokens',
+        Page:ReceiveTokens,
+        Layout: Fragment
+    },
+    {
         path:'/logout',
         Page:Logout,
         Layout: Fragment
-    }
+    },
 ]

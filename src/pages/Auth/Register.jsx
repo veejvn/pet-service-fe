@@ -1,19 +1,17 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import AuthService from "../../service/auth.service";
 import useMessageByApiCode from "../../hooks/useMessageByApiCode";
-import { setTokens} from "../../redux/slices/auth.slice";
+import { setRedirect } from "../../redux/slices/auth.slice";
+import { toast } from "react-toastify";
 
-const Login = () => {
+const Register = () => {
     const [data, setData] = useState({});
     const [errors, setErrors] = useState({});
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const redirect = useSelector((state) => state.auth.redirect)
     const getMessage = useMessageByApiCode();
     const navigate = useNavigate();
 
@@ -35,7 +33,7 @@ const Login = () => {
     });
 
     const onSubmit = async (data) => {
-        const [result, error] = await AuthService.login(data);
+        const [result, error] = await AuthService.register(data);
         if (error) {
             setErrorMessage(getMessage(error.code));
             toast.error(getMessage(error.code), {
@@ -43,12 +41,12 @@ const Login = () => {
             });
             return;
         }
+        console.log(getMessage(result.code));
         toast.success(getMessage(result.code), {
             autoClose: 3000,
-        })
-        const tokens = result.data;
-        dispatch(setTokens(tokens));
-        navigate(redirect);
+        });
+        dispatch(setRedirect("/"))
+        navigate("/");
     }
 
     const handleSubmit = async (e) => {
@@ -64,7 +62,7 @@ const Login = () => {
             <div className="bg-white rounded shadow border-md mt-0 sm-max-w-md p-0">
                 <div className="p-4 space-y-4 md-space-y-6">
                     <h1 className="h5 fw-bold text-gray-900">
-                        Đăng nhập
+                        Đăng ký
                     </h1>
                     <form className="space-y-4 md-space-y-6" onSubmit={handleSubmit}>
                         <div className="mb-3">
@@ -92,20 +90,17 @@ const Login = () => {
                             />
                         </div>
                         <p className="text-danger mb-4">{errorMessage}</p>
-                        <div className="d-flex align-items-center justify-content-between">
-                            <Link to="/forgot-password" className="text-primary fs-5">Quên mật khẩu?</Link>
-                        </div>
                         <button
                             type="submit"
                             className={`btn btn-primary w-100 rounded ${loading ? "disabled" : ""}`}
                             disabled={loading}
                         >
-                            {loading ? "Đang xử lý..." : "Đăng nhập"}
+                            {loading ? "Đang xử lý..." : "Đăng ký"}
                         </button>
                         <div className="d-flex">
                             <p className="mx-auto small text-muted">
-                                Bạn chưa có tài khoản?
-                                <Link to="/register" className="text-primary fs-5"> Đăng kí ngay</Link>
+                                Bạn đã có tài khoản?
+                                <Link to="/login" className="text-primary fs-5"> Đăng nhập ngay</Link>
                             </p>
                         </div>
                         <div className="d-flex align-items-center justify-content-center">
@@ -118,4 +113,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Register;

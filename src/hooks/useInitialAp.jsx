@@ -9,12 +9,9 @@ const useInitialApp = () => {
     const dispatch = useDispatch();
     const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
     const refreshTokenString = useSelector((state) => state.auth.tokens.refreshToken);
-    //console.log(refreshTokenString);
 
     const refreshToken = async () => {
         const [result, error] = await AuthService.refreshToken();
-        console.log(result);
-        console.log(error);
         if (error) {
             dispatch(setIsLogin(false));
             dispatch(setTokens({ accessToken: "", refreshToken: "" }));

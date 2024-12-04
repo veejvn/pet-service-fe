@@ -6,13 +6,21 @@ const AuthService = {
   login({ email, password }) {
     return service(axios.post(`${AUTH_URL}/login`, { email, password }));
   },
+  register({ email, password }) {
+    return service(axios.post(`${AUTH_URL}/register`, { email, password }));
+  },
   getInfo() {
     return service(axios.get(`${AUTH_URL}/info`));
   },
   refreshToken() {
     const { refreshToken } = store.getState().auth.tokens;
-    console.log(refreshToken);
     return service(axios.post(`${AUTH_URL}/refresh-token`, { refreshToken }));
+  },
+  forgotPassword({email}) {
+    return service(axios.post(`${AUTH_URL}/forgot-password`, { email }));
+  },
+  forgotPasswordVerify({code, newPassword}) {
+    return service(axios.post(`${AUTH_URL}/forgot-password/verify`, { code, newPassword }));
   },
 };
 
