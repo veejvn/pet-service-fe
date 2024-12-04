@@ -11,6 +11,8 @@ const apiCode = {
     "auth-e-04": "Sai mật khẩu",
     "auth-e-05": "Mã code không tìm thấy",
     "auth-e-07": "Mật khẩu hiện tại không đúng",
+    "user-s-01": "Cập nhận thông tin cá nhân thành công",
+    "user-e-01": "Không tìm thấy người dùng",
   };
   
   export default apiCode;

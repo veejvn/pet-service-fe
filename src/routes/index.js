@@ -13,6 +13,7 @@ import { Fragment } from "react";
 import Register from "../pages/auth/Register";
 import ReceiveTokens from "../pages/auth/ReceiveTokens";
 import ForgotPassword from "../pages/auth/ForgotPassword";
+import Account from "../pages/Account";
 
 export const routes = [
     {
@@ -73,4 +74,10 @@ export const routes = [
         Page:Logout,
         Layout: Fragment
     },
+    {
+        path:'/account/:page',
+        Page:Account,
+        Layout: DefaultComponent
+    },
+
 ]

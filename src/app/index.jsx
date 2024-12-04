@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import { ToastContainer } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 import { routes } from '../routes'
 import "./global.css";
 import useInitialApp from '../hooks/useInitialAp';

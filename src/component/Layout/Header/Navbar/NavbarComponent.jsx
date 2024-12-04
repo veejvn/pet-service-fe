@@ -8,6 +8,7 @@ function NavbarComponent() {
   const [isSticky, setIsSticky] = useState(false);
   const isLoggedIn = store.getState().auth.isLoggedIn;
   const user = useSelector((state) => state.auth.user);
+  const isStaff = user?.roles?.includes("STAFF");
 
   const handleScroll = () => {
     if (window.scrollY > 40) {
@@ -59,25 +60,29 @@ function NavbarComponent() {
                   {user?.avatar ? (
                     <img src={user?.avatar} alt="Avatar" />
                   ) : (
-                    <img src="https://via.placeholder.com/150" alt="Avatar" />
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSH-bmqm7mCI2OBNsFo6PDo9QD3NPzXnpn9vA&s" alt="Avatar" />
                   )
                   }
                 </div>
                 <ul className="dropdown-menu dropdown-menu-end rounded">
                   <li className="dropdown-item d-flex"><div className='mx-auto'>{user?.displayName}</div></li>
-                  <li><Link to={"/profile"} className="dropdown-item">Hồ sơ</Link></li>
-                  <li><Link to={"/receipt"} className="dropdown-item">Hóa đơn</Link></li>
-                  <li><Link to={"/logout"} className="dropdown-item">Đăng xuất</Link></li>
-                </ul>
+                  <li><Link to={"/account/profile"} className="dropdown-item">Thông tin cá nhân</Link></li>
+                  {isStaff ? (
+                    <li><Link to = { "/schedule" } className = "dropdown-item">Lịch làm việc</Link></li>
+                  ): (
+                      <li><Link to = { "/receipt" } className = "dropdown-item">Hóa đơn</Link></li>
+                  )}
+              <li><Link to={"/logout"} className="dropdown-item">Đăng xuất</Link></li>
+            </ul>
               </div>
-            </div>
-            : <a href="/login" className="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
-              Đăng nhập
-            </a>
-          }
-        </div>
       </div>
-    </nav>
+      : <a href="/login" className="nav-item nav-link nav-contact bg-primary text-white px-5 ms-lg-5">
+        Đăng nhập
+      </a>
+          }
+    </div>
+      </div >
+    </nav >
 
 
   )
