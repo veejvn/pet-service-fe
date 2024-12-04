@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Descriptions, Modal, Table, Typography, } from "antd";
 import axios from "axios";
 import { StyledButton } from "../../app/global_antd";
+import { getAllReceipts } from "../../services/RecieptService";
 
 const { Title } = Typography;
 const sampleReceipts = [
@@ -23,7 +24,16 @@ const sampleReceipts = [
   },
 ];
 
-
+const formatDateTime = (datetime) => {
+  const date = new Date(datetime);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng trong JS bắt đầu từ 0
+  const year = String(date.getFullYear()).slice(-2);
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+  const seconds = String(date.getSeconds()).padStart(2, '0');
+  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+};
 function MyReceiptPage({userId}) {
 
   const [receipts, setReceipts] = useState([]);
@@ -33,8 +43,9 @@ function MyReceiptPage({userId}) {
   useEffect(() => {
     const fetchReceipts = async () => {
       try {
-        const response = await axios.get(`/api/receipts/user/${userId}`);
-        setReceipts(response.data);
+        const response = await getAllReceipts()
+        console.log('response',response[0].data)
+        setReceipts(response[0].data);
       } catch (error) {
         console.error("Failed to fetch receipts:", error);
       }
@@ -75,7 +86,7 @@ function MyReceiptPage({userId}) {
     <div>
       <Title level={1}>Lịch sử đặt lịch</Title>
       <Table
-        dataSource={sampleReceipts}
+        dataSource={receipts}
         columns={columns}
         rowKey="id"
         pagination={{ pageSize: 5 }}
@@ -105,7 +116,9 @@ function MyReceiptPage({userId}) {
               {selectedReceipt.items.map((item, index) => (
                 <div key={index}>
                   <p>
-                    - {item.petService.name} ({item.staff.name || "Chưa chọn"})
+                    Dịch vụ: {item.petService.name} <br/>
+                     - Nhân viên ({item.staff.displayName || "Chưa chọn"}) <br/>
+                     - Bắt đầu: {formatDateTime(item.start)} <br/>- kết thúc: {formatDateTime(item.end)}
                   </p>
                 </div>
               ))}

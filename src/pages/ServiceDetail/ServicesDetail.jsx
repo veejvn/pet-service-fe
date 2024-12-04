@@ -4,6 +4,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { getServiceById } from '../../services/ServiceServce';
 import { StyledButton } from '../../app/global_antd';
 import { createCartItem } from '../../services/CartService';
+import { toast } from 'react-toastify';
 
 function ServiceDetail() {
   const { id } = useParams();
@@ -38,24 +39,15 @@ function ServiceDetail() {
       return;
     }
 
-    try {
-      const cartItem = {
-        serviceId: service.id,
-        name: service.name,
-        description: service.description,
-        price: service.price,
-        quantity: 1, // Giả sử người dùng chọn 1 dịch vụ
-      };
-
-      const response = await createCartItem(cartItem); // Gọi API để thêm vào giỏ hàng
-      if (response) {
-        alert('Dịch vụ đã được thêm vào giỏ hàng');
-        navigate('/cart'); // Điều hướng người dùng đến trang giỏ hàng
-      }
-    } catch (err) {
-      console.error('Error adding to cart:', err);
-      alert('Có lỗi xảy ra khi thêm vào giỏ hàng');
+    const [result, error] = await createCartItem(service.id); // Gọi API để thêm vào giỏ hàng
+    if(error.code="cart-item-e-01"){
+      // console.log(error);
+      toast.error("Dịch vụ đã có trong giỏ hàng")
+      return;
     }
+    toast.success("Thêm dịch vụ vào giỏ hàng thành công",{
+      autoClose: 3000
+    })
   };
   return (
     <Container className="mt-5">

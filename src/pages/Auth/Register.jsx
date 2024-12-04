@@ -34,6 +34,8 @@ const Register = () => {
 
     const onSubmit = async (data) => {
         const [result, error] = await AuthService.register(data);
+        console.log(result);
+        console.log(error);
         if (error) {
             setErrorMessage(getMessage(error.code));
             toast.error(getMessage(error.code), {
@@ -41,7 +43,7 @@ const Register = () => {
             });
             return;
         }
-        console.log(getMessage(result.code));
+        
         toast.success(getMessage(result.code), {
             autoClose: 3000,
         });

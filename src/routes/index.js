@@ -6,7 +6,7 @@ import ProductsPage from "../pages/Products/ProductsPage";
 import ServiceDetail from "../pages/ServiceDetail/ServicesDetail";
 import ServicesPage from "../pages/Services/ServicesPage";
 import Login from "../pages/Auth/Login";
-import CartPage from "../pages/Cart/CartPage";
+import CartPage from "../pages/Cart/CartPage"
 import DefaultComponent from '../component/Layout/Default/DefaultComponent';
 import AuthLayout from "../component/Layout/AuthLayout";
 import Logout from "../pages/auth/Logout";
@@ -77,13 +77,13 @@ export const routes = [
     },
     {
         path:'/cart',
-        page:CartPage,
-        layout: DefaultComponent
+        Page:CartPage,
+        Layout: DefaultComponent
     },
     {
-        path:'/myReciept/:id',
-        page:MyRecieptPage,
-        layout: DefaultComponent
+        path:'/myReciept',
+        Page:MyRecieptPage,
+        Layout: DefaultComponent
     }
 
 ]

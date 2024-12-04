@@ -1,16 +1,19 @@
 import React from 'react';
 import { Typography, Table, Row, Col, Button, Divider } from 'antd';
 import { Container } from './style';
+import { useSelector } from 'react-redux';
 
 const { Title, Text } = Typography;
 
 const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
+    const user = useSelector((state) => state.auth.user);
+    console.log('user',user)
+    console.log('receiptData reviews',receiptData)
     const columns = [
         {
             title: 'Dịch vụ',
-            dataIndex: 'petService',
             key: 'petService',
-            render: (petService) => petService.name,
+            render: (_, record) => record.petService?.name,
         },
         {
             title: 'Nhân viên',
@@ -20,7 +23,7 @@ const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
         },
         {
             title: 'Thời gian bắt đầu',
-            dataIndex: 'start',
+            dataIndex:'end',
             key: 'start',
             render: (start) => new Date(start).toLocaleString(),
         },
@@ -34,20 +37,20 @@ const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
             title: 'Trạng thái',
             dataIndex: 'status',
             key: 'status',
-            render: (status) => (status === 'PENDING' ? 'Chờ xử lý' : 'Đã xử lý'),
+            render: (status) => (status === undefined ? 'Chờ xử lý' : 'Đã xử lý'),
         },
     ];
-
+    const totalPrice =receiptData.items.reduce((total, service) => total + service.petService.price, 0);
     return (
         <Container>
             <Title level={2}>Xem lại thông tin đơn hàng</Title>
             <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
                 <Col span={12}>
                     <Title level={4}>Thông tin khách hàng</Title>
-                    <p>Tên: {receiptData.user.name}</p>
-                    <p>Email: {receiptData.user.email}</p>
-                    <p>Số điện thoại: {receiptData.user.phoneNumber}</p>
-                </Col>
+                    <p>Tên: {user.name}</p>
+                    <p>Email: {user.email}</p>
+                    <p>Số điện thoại: {user.phoneNumber}</p>
+                </Col>2
                 <Col span={12}>
                     <Title level={4}>Thông tin thú cưng</Title>
                     <p>Tên: {receiptData.pet.name}</p>
@@ -67,9 +70,9 @@ const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
             <Divider />
             <Row justify="space-between" style={{ marginTop: '20px' }}>
                 <Col>
-                    <Text strong>Tổng số dịch vụ: {receiptData.totalItem}</Text>
+                    <Text strong>Tổng số dịch vụ: {receiptData.items.length}</Text>
                     <br />
-                    <Text strong>Tổng giá: {receiptData.totalPriceReceipt.toLocaleString()} VNĐ</Text>
+                    <Text strong>Tổng giá: {totalPrice?.toLocaleString()} VNĐ</Text>
                 </Col>
                 <Col>
                     <Button type="default" onClick={onCancel} style={{ marginRight: '10px' }}>
