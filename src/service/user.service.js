@@ -6,8 +6,8 @@ const UserService = {
     getUser(){
         return service(axios.get(`${API_URL}/users`));
     },
-    updateInfo({displayName, dob, phoneNumber, avater}){
-        return service(axios.put(`${API_URL}/users`, {displayName, dob, phoneNumber, avater}));
+    updateInfo({displayName, dob, phoneNumber, avatar}){
+        return service(axios.put(`${API_URL}/users`, {displayName, dob, phoneNumber, avatar}));
     }
 }
 

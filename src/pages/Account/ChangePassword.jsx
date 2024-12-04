@@ -93,7 +93,7 @@ const ChangePassword = () => {
                             {loading ? "Đang xử lý..." : "Xác nhận"}
                         </button>
                         <div className="d-flex align-items-center justify-content-center">
-                            <Link to="/account/profile" className="text-primary fs-4"><i class="bi bi-arrow-left-circle"></i></Link>
+                            <Link to="/account/profile" className="text-primary fs-2"><i class="bi bi-arrow-left-circle"></i></Link>
                         </div>
                     </form>
                 </div>
