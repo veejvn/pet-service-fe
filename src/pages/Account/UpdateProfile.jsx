@@ -45,8 +45,6 @@ const UpdateProfile = () => {
         let newUpload = {};
         if (hasAvatarFile) {
             const [deleteAvatarResult, deleteAvatarError] = await UploadService.deleteFile(data.avatar);
-            console.log(deleteAvatarResult);
-            console.log(deleteAvatarError);
             const [uploadAvatarResult, uploadAvatarError] = await UploadService.uploadImage(avatar);
             if (!uploadAvatarError) {
                 newUpload.avatar = uploadAvatarResult.data;

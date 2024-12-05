@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthService from "../../service/auth.service";
 import useMessageByApiCode from "../../hooks/useMessageByApiCode";
-import { setTokens} from "../../redux/slices/auth.slice";
+import { setRedirect, setTokens} from "../../redux/slices/auth.slice";
 
 const Login = () => {
     const [data, setData] = useState({});
@@ -12,7 +12,6 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
-    const redirect = useSelector((state) => state.auth.redirect)
     const getMessage = useMessageByApiCode();
     const navigate = useNavigate();
 
@@ -47,7 +46,7 @@ const Login = () => {
         })
         const tokens = result.data;
         dispatch(setTokens(tokens));
-        navigate(redirect);
+        navigate("/");
     }
 
     const handleSubmit = async (e) => {

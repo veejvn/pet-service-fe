@@ -1,5 +1,4 @@
 import axios, { service } from "../tools/axios.tool";
-import store from "../redux/store.redux";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const UserService = {

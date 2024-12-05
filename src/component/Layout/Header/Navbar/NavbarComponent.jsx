@@ -67,6 +67,7 @@ function NavbarComponent() {
                 <ul className="dropdown-menu dropdown-menu-end rounded">
                   <li className="dropdown-item d-flex"><div className='mx-auto'>{user?.displayName}</div></li>
                   <li><Link to={"/account/profile"} className="dropdown-item">Thông tin cá nhân</Link></li>
+                  {!isStaff && (<li><Link to={"/pet/list"} className="dropdown-item">Thú cưng</Link></li>)}
                   {isStaff ? (
                     <li><Link to = { "/schedule" } className = "dropdown-item">Lịch làm việc</Link></li>
                   ): (

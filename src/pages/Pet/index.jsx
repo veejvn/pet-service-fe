@@ -5,9 +5,9 @@ import AddPet from "./AddPet";
 
 
 const page = {
-    "list-pet": ListPet,
-    "add-pet": AddPet,
-    "update-pet": UpdatePet,
+    "list": ListPet,
+    "add": AddPet,
+    "update": UpdatePet,
 }
 
 const Pet = () => {
