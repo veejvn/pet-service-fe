@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import AuthService from "../../service/auth.service";
 import useMessageByApiCode from "../../hooks/useMessageByApiCode";
-import { setTokens} from "../../redux/slices/auth.slice";
+import { setRedirect, setTokens} from "../../redux/slices/auth.slice";
 
 const Login = () => {
     const [data, setData] = useState({});
@@ -47,6 +47,7 @@ const Login = () => {
         })
         const tokens = result.data;
         dispatch(setTokens(tokens));
+        dispatch(setRedirect("/"));
         navigate(redirect);
     }
 

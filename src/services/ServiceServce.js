@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, { service } from "../tools/axios.tool";
 
 const API_URL = `${import.meta.env.VITE_API_URL}/pet-services`;
 
 const getAllServices = (page = 0, size = 10) => {
-  return axios.get(`${API_URL}?page=${page}&size=${size}`);
+  return service(axios.get(`${API_URL}?page=${page}&size=${size}`));
 };
 
 const getServiceById = (id) => {
@@ -27,5 +27,5 @@ export {
   getServiceById,
   createService,
   updateService,
-  deleteService
+  deleteService,
 };

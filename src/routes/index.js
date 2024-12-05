@@ -31,7 +31,7 @@ export const routes = [
 
     },
     {
-        path:'/service/:id',
+        path:'/service/detail',
         Page:ServiceDetail,
         Layout: DefaultComponent
 
@@ -93,7 +93,7 @@ export const routes = [
         Layout: DefaultComponent
     },
     {
-        path:'/myReciept',
+        path:'/receipt',
         Page:MyRecieptPage,
         Layout: DefaultComponent
     }
