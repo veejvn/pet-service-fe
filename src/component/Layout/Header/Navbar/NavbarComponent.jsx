@@ -50,7 +50,6 @@ function NavbarComponent() {
           {isLoggedIn && (<div className="d-flex position-relative justify-content-center align-items-center my-auto mx-4">
             <Link to={"/cart"}>
               <i className="bi bi-cart fs-1 text-primary" />
-              <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning'>3</span>
             </Link>
           </div>)}
           {isLoggedIn ?

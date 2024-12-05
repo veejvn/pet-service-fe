@@ -56,8 +56,8 @@ function CartPage() {
     const updatedServices = selectedServices.map((service) => {
       if (service.id === serviceId) {
         const startTime = dayjs(dateString, "YYYY-MM-DD HH:mm:ss");
-        const endTime = startTime.add(2, "hour").toISOString(); // Cộng thêm 2 tiếng cho thời gian bắt đầu
-        return { ...service, start: startTime.toISOString(), end: endTime }; // Thêm trường end
+        const endTime = startTime.add(2, "hour"); // Cộng thêm 2 tiếng cho thời gian bắt đầu
+        return { ...service, start: startTime.format("YYYY-MM-DDTHH:mm:ss"), end: endTime.format("YYYY-MM-DDTHH:mm:ss") }; // Thêm trường end
       }
       return service;
     });
@@ -68,7 +68,7 @@ function CartPage() {
     const localDateTime = dayjs(
       dateString,
       "YYYY-MM-DD HH:mm:ss"
-    ).toISOString();
+    ).format("YYYY-MM-DDTHH:mm:ss");
     console.log("Đã chọn thời gian:", localDateTime);
   };
 
@@ -217,14 +217,13 @@ function CartPage() {
     try {
       const response = await createReceipt(receiptRequest);
       toast.success('Đặt hàng thành công!');
-      navigate('/myReciept')
+      navigate('/receipt')
     } catch (error) {
       console.log('error',error)
       toast.error('Đặt hàng thất bại. Vui lòng thử lại!');
     }
 
   };
-  console.log("reciepData", receiptData);
   if (isReviewing) {
     return (
       <ReceiptReviewPage
@@ -254,7 +253,7 @@ function CartPage() {
                 <img
                   src={selectedPet.image}
                   alt={selectedPet.name}
-                  style={{ width: "100%", marginBottom: 10 }}
+                  style={{ width: "100px", height: "100px", marginBottom: 10 }}
                 />
                 <p>Tên: {selectedPet.name}</p>
                 <p>Loài: {selectedPet.species.name}</p>

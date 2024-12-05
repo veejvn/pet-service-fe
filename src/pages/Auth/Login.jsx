@@ -12,6 +12,7 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
+    const redirect = useSelector((state) => state.auth.redirect)
     const getMessage = useMessageByApiCode();
     const navigate = useNavigate();
 

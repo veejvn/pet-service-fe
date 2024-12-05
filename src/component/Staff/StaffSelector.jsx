@@ -1,28 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, List, Avatar, Button, Typography } from 'antd';
+import StaffService from '../../service/staff.service';
 
 const { Text } = Typography;
 
-// Dữ liệu mẫu của nhân viên
-const sampleStaff = [
-    {
-        id: '1',
-        displayName: 'Nguyễn Văn A',
-        phoneNumber: '0123456789',
-        avatar: 'https://example.com/avatar1.jpg',
-        jobPosition: 'Chuyên viên tắm thú cưng',
-    },
-    {
-        id: '2',
-        displayName: 'Trần Thị B',
-        phoneNumber: '0987654321',
-        avatar: 'https://example.com/avatar2.jpg',
-        jobPosition: 'Chuyên viên cắt tỉa lông',
-    },
-];
-
 const StaffSelector = ({ onSelectStaff }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [staffs, setStaffs] = useState([]);
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
@@ -32,18 +16,31 @@ const StaffSelector = ({ onSelectStaff }) => {
         handleCloseModal();
     };
 
+    useEffect(() => {
+        fetchStaffs();
+    }, []);
+
+    const fetchStaffs = async () => {
+        const [result, error] = await StaffService.getStaffs();
+        if (error) {
+            console.log(error);
+            return;
+        }
+        setStaffs(result.data);
+    }
+
     return (
         <>
             <Button onClick={handleOpenModal}>Chọn nhân viên</Button>
             <Modal
                 title="Danh sách nhân viên"
-                visible={isModalOpen}
+                open={isModalOpen}
                 onCancel={handleCloseModal}
                 footer={null}
             >
                 <List
                     itemLayout="horizontal"
-                    dataSource={sampleStaff}
+                    dataSource={staffs}
                     renderItem={(staff) => (
                         <List.Item onClick={() => handleSelectStaff(staff)} style={{ cursor: 'pointer' }}>
                             <List.Item.Meta

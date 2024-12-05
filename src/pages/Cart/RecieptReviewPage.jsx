@@ -1,14 +1,29 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Table, Row, Col, Button, Divider } from 'antd';
 import { Container } from './style';
 import { useSelector } from 'react-redux';
+import UserService from '../../service/user.service';
 
 const { Title, Text } = Typography;
 
 const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
-    const user = useSelector((state) => state.auth.user);
-    console.log('user',user)
-    console.log('receiptData reviews',receiptData)
+
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            const [result, error] = await UserService.getUser();
+            if (error) {
+                console.log(error);
+                return;
+            }
+            setUser(result.data);
+        }
+        fetchUser();
+    }, []);
+
+    console.log(receiptData);
+
     const columns = [
         {
             title: 'Dịch vụ',
@@ -23,7 +38,7 @@ const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
         },
         {
             title: 'Thời gian bắt đầu',
-            dataIndex:'end',
+            dataIndex: 'start',
             key: 'start',
             render: (start) => new Date(start).toLocaleString(),
         },
@@ -40,16 +55,16 @@ const ReceiptReviewPage = ({ receiptData, onConfirmOrder, onCancel }) => {
             render: (status) => (status === undefined ? 'Chờ xử lý' : 'Đã xử lý'),
         },
     ];
-    const totalPrice =receiptData.items.reduce((total, service) => total + service.petService.price, 0);
+    const totalPrice = receiptData.items.reduce((total, service) => total + service.petService.price, 0);
     return (
         <Container>
             <Title level={2}>Xem lại thông tin đơn hàng</Title>
             <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
                 <Col span={12}>
                     <Title level={4}>Thông tin khách hàng</Title>
-                    <p>Tên: {user.name}</p>
-                    <p>Email: {user.email}</p>
-                    <p>Số điện thoại: {user.phoneNumber}</p>
+                    <p>Tên: {user?.displayName}</p>
+                    <p>Email: {user?.email}</p>
+                    <p>Số điện thoại: {user?.phoneNumber}</p>
                 </Col>2
                 <Col span={12}>
                     <Title level={4}>Thông tin thú cưng</Title>

@@ -1,28 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Descriptions, Modal, Table, Typography, } from "antd";
-import axios from "axios";
 import { StyledButton } from "../../app/global_antd";
 import { getAllReceipts } from "../../services/RecieptService";
 
 const { Title } = Typography;
-const sampleReceipts = [
-  {
-    id: "R12345",
-    totalItem: 2,
-    totalPriceReceipt: 500000,
-    createdAt: "2024-12-01T14:30:00",
-    items: [
-      {
-        status: "PENDING",
-        start: "2024-12-05T10:00:00",
-        end: "2024-12-05T11:00:00",
-        staff: { name: "Nguyễn Văn B" },
-        petService: { name: "Dịch vụ tắm thú cưng", price: 300000 },
-      },
-    ],
-    pet: { name: "Milu", species: { name: "Chó" } },
-  },
-];
 
 const formatDateTime = (datetime) => {
   const date = new Date(datetime);
@@ -31,10 +12,9 @@ const formatDateTime = (datetime) => {
   const year = String(date.getFullYear()).slice(-2);
   const hours = String(date.getHours()).padStart(2, '0');
   const minutes = String(date.getMinutes()).padStart(2, '0');
-  const seconds = String(date.getSeconds()).padStart(2, '0');
-  return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+  return `${day}/${month}/${year} ${hours}:${minutes}`;
 };
-function MyReceiptPage({userId}) {
+function MyReceiptPage({ userId }) {
 
   const [receipts, setReceipts] = useState([]);
   const [selectedReceipt, setSelectedReceipt] = useState(null); // Lưu hóa đơn được chọn
@@ -44,7 +24,6 @@ function MyReceiptPage({userId}) {
     const fetchReceipts = async () => {
       try {
         const response = await getAllReceipts()
-        console.log('response',response[0].data)
         setReceipts(response[0].data);
       } catch (error) {
         console.error("Failed to fetch receipts:", error);
@@ -61,7 +40,9 @@ function MyReceiptPage({userId}) {
 
   const columns = [
     { title: "Mã hóa đơn", dataIndex: "id", key: "id" },
-    { title: "Ngày tạo", dataIndex: "createdAt", key: "createdAt" },
+    { title: "Ngày tạo", dataIndex: "createdAt", key: "createdAt", 
+      render: (createdAt) => formatDateTime(createdAt), 
+    },
     {
       title: "Tổng số dịch vụ",
       dataIndex: "totalItem",
@@ -116,9 +97,9 @@ function MyReceiptPage({userId}) {
               {selectedReceipt.items.map((item, index) => (
                 <div key={index}>
                   <p>
-                    Dịch vụ: {item.petService.name} <br/>
-                     - Nhân viên ({item.staff.displayName || "Chưa chọn"}) <br/>
-                     - Bắt đầu: {formatDateTime(item.start)} <br/>- kết thúc: {formatDateTime(item.end)}
+                    Dịch vụ: {item.petService.name} <br />
+                    - Nhân viên: {item.staff.displayName || "Chưa chọn"} <br />
+                    - Bắt đầu: {formatDateTime(item.start)} <br />- Kết thúc: {formatDateTime(item.end)}
                   </p>
                 </div>
               ))}

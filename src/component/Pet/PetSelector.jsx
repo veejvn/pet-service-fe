@@ -1,32 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal, List, Avatar, Typography, Button } from 'antd';
 import { StyledButton } from '../../app/global_antd';
+import PetService from '../../service/pet.service';
 
 const { Title, Text } = Typography;
-// Dữ liệu PetResponse mẫu
-const samplePets = [
-    {
-        id: '1',
-        name: 'Mèo Mun',
-        weight: 3.5,
-        age: '2 năm',
-        description: 'Mèo nhà, hiền lành và thích được vuốt ve.',
-        species: { id: '1', name: 'Mèo' },
-        image: 'https://example.com/cat1.jpg',
-    },
-    {
-        id: '2',
-        name: 'Chó Husky',
-        weight: 15.2,
-        age: '3 năm',
-        description: 'Năng động, thông minh, thân thiện.',
-        species: { id: '2', name: 'Chó' },
-        image: 'https://example.com/dog1.jpg',
-    },
-];
 
 const PetSelector = ({ onSelectPet }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [pets, setPets] = useState([]);
 
     const handleOpenModal = () => setIsModalOpen(true);
     const handleCloseModal = () => setIsModalOpen(false);
@@ -36,9 +17,17 @@ const PetSelector = ({ onSelectPet }) => {
         handleCloseModal();
     };
 
+    useEffect(() => {
+        fetchPets();
+    }, []);
 
-    const fetchPet = async () => {
-        
+    const fetchPets = async () => {
+        const [result, error] = await PetService.getAll();
+        if (error) {
+            console.log(error);
+            return;
+        }
+        setPets(result.data);
     }
 
     return (
@@ -48,13 +37,13 @@ const PetSelector = ({ onSelectPet }) => {
             </StyledButton>
             <Modal
                 title="Danh sách thú cưng"
-                visible={isModalOpen}
+                open={isModalOpen}
                 onCancel={handleCloseModal}
                 footer={null}
             >
                 <List
                     itemLayout="vertical"
-                    dataSource={samplePets}
+                    dataSource={pets}
                     renderItem={(pet) => (
                         <List.Item
                             key={pet.id}
