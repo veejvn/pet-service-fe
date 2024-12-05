@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getAllServices } from '../../services/ServiceServce';
+import { getAllPetServices } from '../../services/ServiceServce';
 import { Spin } from 'antd';
 
 function ServicesComponent({ limit = 20 }) {
@@ -16,7 +16,7 @@ function ServicesComponent({ limit = 20 }) {
 
   const fetchServices = async () => {
     setLoading(true);
-    const [result, error] = await getAllServices(currentPage, limit);
+    const [result, error] = await getAllPetServices(currentPage, limit);
     if (error) {
       console.log(error);
       return;
@@ -78,12 +78,11 @@ function ServicesComponent({ limit = 20 }) {
                       </p>
                       <div className="d-flex justify-content-between align-items-center mt-auto">
                         <span className="text-primary fw-bold">{service.price.toLocaleString('vi-VN')} VNĐ</span>
-                        <button
+                        <Link to={`/service/${service.id}`}
                           className="btn btn-primary text-uppercase"
-                          onClick={() => handleRedirectDetail(service)}
                         >
                           Đọc Thêm <i className="bi bi-chevron-right"></i>
-                        </button>
+                        </Link>
                       </div>
                     </div>
                   </div>

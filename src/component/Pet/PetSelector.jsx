@@ -36,6 +36,11 @@ const PetSelector = ({ onSelectPet }) => {
         handleCloseModal();
     };
 
+
+    const fetchPet = async () => {
+        
+    }
+
     return (
         <>
             <StyledButton type="primary" onClick={handleOpenModal}>

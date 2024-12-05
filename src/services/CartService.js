@@ -1,5 +1,4 @@
 import axios, {service} from "../tools/axios.tool";
-import store from "../redux/store.redux";
 
 // API URL, thay thế bằng URL API của bạn
 const API_URL = `${import.meta.env.VITE_API_URL}/cart-items`;

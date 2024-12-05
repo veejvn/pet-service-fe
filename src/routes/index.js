@@ -1,4 +1,3 @@
-import AdminServiceComponent from "../component/Admin/AdminServiceComponent";
 import AboutPage from "../pages/About/AboutPage";
 import ContactPage from "../pages/Contact/ContactPage";
 import HomePage from '../pages/Home/HomePage';
@@ -31,7 +30,7 @@ export const routes = [
 
     },
     {
-        path:'/service/detail',
+        path:'/service/:id',
         Page:ServiceDetail,
         Layout: DefaultComponent
 
