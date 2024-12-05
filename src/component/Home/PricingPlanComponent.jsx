@@ -25,9 +25,9 @@ function PricingPlanComponent() {
                       className="align-top"
                       style={{ fontSize: '22px', lineHeight: '45px' }}
                     >
-                      $
+       
                     </small>
-                    49
+                    199.000 VND
                     <small
                       className="align-bottom"
                       style={{ fontSize: '16px', lineHeight: '40px' }}
@@ -72,9 +72,9 @@ function PricingPlanComponent() {
                       className="align-top"
                       style={{ fontSize: '22px', lineHeight: '45px' }}
                     >
-                      $
+                    
                     </small>
-                    99
+                    249.000 VND
                     <small
                       className="align-bottom"
                       style={{ fontSize: '16px', lineHeight: '40px' }}
@@ -119,9 +119,9 @@ function PricingPlanComponent() {
                       className="align-top"
                       style={{ fontSize: '22px', lineHeight: '45px' }}
                     >
-                      $
+                      
                     </small>
-                    149
+                    399.000 VND
                     <small
                       className="align-bottom"
                       style={{ fontSize: '16px', lineHeight: '40px' }}

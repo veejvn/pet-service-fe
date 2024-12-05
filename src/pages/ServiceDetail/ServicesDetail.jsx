@@ -1,55 +1,87 @@
-// components/ServiceDetail.js
-import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
+import { Container, Row, Col } from 'react-bootstrap';
+import { StyledButton } from '../../app/global_antd';
+import { createCartItem } from '../../services/CartService';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setRedirect } from '../../redux/slices/auth.slice';
+import { getPetServiceById } from '../../services/ServiceServce';
+import { Spin } from 'antd';
 
 function ServiceDetail() {
   const { id } = useParams();
+  const [petService, setPetService] = useState({});
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const isLogedIn = useSelector((state) => state.auth.isLoggedIn);
+  const dispatch = useDispatch();
 
-  // Dữ liệu mẫu 
-  const services = [
-    {
-      id: '1',
-      name: 'Chăm Sóc Thú Cưng',
-      details: 'Dịch vụ chăm sóc thú cưng tận tình và chu đáo, đảm bảo chúng luôn an toàn và hạnh phúc.',
-      time: '1 giờ',
-      price: '200,000 VNĐ',
-      image: 'https://petservicehcm.com/wp-content/uploads/2020/01/team-Petservice-HCM-02.jpg' 
-    },
-    {
-      id: '2',
-      name: 'Cho Thú Cưng Ăn',
-      details: 'Dịch vụ cung cấp chế độ ăn uống cân bằng và phù hợp với nhu cầu dinh dưỡng của thú cưng.',
-      time: '30 phút',
-      price: '100,000 VNĐ',
-      image: 'https://via.placeholder.com/300'
-    },
-    // Các dịch vụ khác...
-  ];
+  useEffect(() => {
+    setLoading(true)
+    fecthPetServiceById(id);
+    setLoading(false)
+  }, []);
 
-//   const service = services.find((s) => s.id === id);
-  const service = services.find((s) => s.id === '1');
-
-  if (!service) {
-    return <h2>Dịch vụ không tồn tại</h2>;
+  const fecthPetServiceById = async (id) => {
+    const [result, error] = await getPetServiceById(id);
+    if (error) {
+      setError(true)
+    }
+    setPetService(result.data);
   }
 
+  const handleBooking = async () => {
+    if (!isLogedIn) {
+      dispatch(setRedirect(`/service/${id}`))
+      navigate("/login");
+      return;
+    }
+    const [result, error] = await createCartItem(petService.id);
+    if (error) {
+      toast.error("Dịch vụ đã có trong giỏ hàng")
+      return;
+    }
+    toast.success("Thêm dịch vụ vào giỏ hàng thành công", {
+      autoClose: 3000
+    })
+  };
+
+  if (!petService || error) return <h2>Dịch vụ không tồn tại</h2>;
+
   return (
-    <Container className="mt-5">
-      <Row>
-        <Col md={6}>
-          <img src={service.image} alt={service.name} className="img-fluid rounded" />
-        </Col>
-        <Col md={6}>
-          <h2 className="text-uppercase">{service.name}</h2>
-          <p>{service.details}</p>
-          <p><strong>Thời gian thực hiện:</strong> {service.time}</p>
-          <p><strong>Giá dịch vụ:</strong> {service.price}</p>
-          <Button onClick={() => navigate(-1)}>Quay lại</Button>
-        </Col>
-      </Row>
-    </Container>
+    <Spin spinning={loading}>
+      <Container className="mt-5">
+        <Row>
+          <Col md={6}>
+            <img
+              src={petService?.image || '/default-image.jpg'}
+              alt={petService?.name}
+              className="img-fluid rounded"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
+          </Col>
+          <Col md={6}>
+            <h2 className="text-uppercase">{petService?.name}</h2>
+            <p>{petService?.description}</p>
+            <p><strong>Giá dịch vụ:</strong> {new Intl.NumberFormat('vi-VN', {
+              style: 'currency',
+              currency: 'VND'
+            }).format(petService?.price)}</p>
+            <div>
+              <StyledButton onClick={handleBooking} className="mt-3 me-3">Đặt lịch hẹn</StyledButton>
+              <StyledButton onClick={() => navigate("/services")} className="mt-3">Quay lại</StyledButton>
+            </div>
+            {/* <StyledButton style={{marginLeft:"20px"}} className="mt-3">Đặt lịch hẹn</StyledButton> */}
+          </Col>
+        </Row>
+      </Container>
+    </Spin>
   );
 }
 

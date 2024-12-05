@@ -46,7 +46,8 @@ const Login = () => {
         })
         const tokens = result.data;
         dispatch(setTokens(tokens));
-        navigate("/");
+        dispatch(setRedirect("/"));
+        navigate(redirect);
     }
 
     const handleSubmit = async (e) => {

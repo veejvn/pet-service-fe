@@ -1,11 +1,11 @@
 import AboutPage from "../pages/About/AboutPage";
 import ContactPage from "../pages/Contact/ContactPage";
-import HomePage from "../pages/Home/HomePage";
+import HomePage from '../pages/Home/HomePage';
 import ProductsPage from "../pages/Products/ProductsPage";
 import ServiceDetail from "../pages/ServiceDetail/ServicesDetail";
 import ServicesPage from "../pages/Services/ServicesPage";
 import Login from "../pages/Auth/Login";
-
+import CartPage from "../pages/Cart/CartPage"
 import DefaultComponent from '../component/Layout/Default/DefaultComponent';
 import AuthLayout from "../component/Layout/AuthLayout";
 import Logout from "../pages/auth/Logout";
@@ -15,6 +15,7 @@ import ReceiveTokens from "../pages/auth/ReceiveTokens";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import Pet from "../pages/Pet";
 import Account from "../pages/Account";
+import MyRecieptPage from "../pages/Reciept/MyRecieptPage";
 
 export const routes = [
     {
@@ -85,5 +86,16 @@ export const routes = [
         Page:Account,
         Layout: DefaultComponent
     },
+    {
+        path:'/cart',
+        Page:CartPage,
+        Layout: DefaultComponent
+    },
+    {
+        path:'/receipt',
+        Page:MyRecieptPage,
+        Layout: DefaultComponent
+    }
 
 ]
+
