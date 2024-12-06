@@ -16,6 +16,7 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import Pet from "../pages/Pet";
 import Account from "../pages/Account";
 import MyRecieptPage from "../pages/Reciept/MyRecieptPage";
+import Schedule from "../pages/Staff/Schedule";
 
 export const routes = [
     {
@@ -94,6 +95,11 @@ export const routes = [
     {
         path:'/receipt',
         Page:MyRecieptPage,
+        Layout: DefaultComponent
+    },
+    {
+        path:'/schedule',
+        Page:Schedule,
         Layout: DefaultComponent
     }
 

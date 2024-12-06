@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TeamImg1 from '../../assets/img/team-1.jpg';
 import TeamImg2 from '../../assets/img/team-2.jpg';
 import TeamImg3 from '../../assets/img/team-3.jpg';
@@ -7,6 +7,7 @@ import TeamImg5 from '../../assets/img/team-5.jpg';
 import OwlCarousel from 'react-owl-carousel';
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
+import StaffService from '../../service/staff.service';
 
 function TeamComponent() {
     const options = {
@@ -36,6 +37,21 @@ function TeamComponent() {
         }
     };
 
+    const [staffs, setStaffs] = useState([]);
+    useEffect(() => {
+        const fetchStaffs = async () => {
+            const [result, error] = await StaffService.getStaffs();
+            if (error) {
+                console.log(error);
+                return;
+            }
+            setStaffs(result.data);
+        }
+        fetchStaffs();
+    }, []);
+
+    console.log(staffs);
+
     return (
         <div>
             <div className="container-fluid py-5">
@@ -51,119 +67,33 @@ function TeamComponent() {
                     </div>
                     <OwlCarousel
                         className="owl-carousel team-carousel position-relative"
-                        style={{ paddingRight: 25 }} 
+                        style={{ paddingRight: 25 }}
                         {...options}
                     >
-                        <div className="team-item item">
-                            <div className="position-relative overflow-hidden">
-                                <img className="img-fluid w-100" src={TeamImg1} alt="" />
-                                <div className="team-overlay">
-                                    <div className="d-flex align-items-center justify-content-start">
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-twitter" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-facebook" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-linkedin" />
-                                        </a>
+                        {staffs && staffs.map((staff) => (
+                            <div key={staff.id} className="team-item item">
+                                <div className="position-relative overflow-hidden">
+                                    <img className="img-fluid w-100" src={staff?.avatar || ""} alt="" />
+                                    <div className="team-overlay">
+                                        <div className="d-flex align-items-center justify-content-start">
+                                            <a className="btn btn-light btn-square mx-1" href="#">
+                                                <i className="bi bi-twitter" />
+                                            </a>
+                                            <a className="btn btn-light btn-square mx-1" href="#">
+                                                <i className="bi bi-facebook" />
+                                            </a>
+                                            <a className="btn btn-light btn-square mx-1" href="#">
+                                                <i className="bi bi-linkedin" />
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="bg-light text-center p-4">
-                                <h5 className="text-uppercase">Nguyễn Văn A</h5>
-                                <p className="m-0">Bác sĩ Thú Y</p>
-                            </div>
-                        </div>
-                        <div className="team-item item">
-                            <div className="position-relative overflow-hidden">
-                                <img className="img-fluid w-100" src={TeamImg2} alt="" />
-                                <div className="team-overlay">
-                                    <div className="d-flex align-items-center justify-content-start">
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-twitter" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-facebook" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-linkedin" />
-                                        </a>
-                                    </div>
+                                <div className="bg-light text-center p-4">
+                                    <h5 className="text-uppercase">{staff?.displayName || ""}</h5>
+                                    <p className="m-0">{staff?.jobPosition || ""}</p>
                                 </div>
                             </div>
-                            <div className="bg-light text-center p-4">
-                                <h5 className="text-uppercase">Trần Thị B</h5>
-                                <p className="m-0">Kỹ Thuật Viên Chăm Sóc Thú Cưng</p>
-                            </div>
-                        </div>
-                        <div className="team-item item">
-                            <div className="position-relative overflow-hidden">
-                                <img className="img-fluid w-100" src={TeamImg3} alt="" />
-                                <div className="team-overlay">
-                                    <div className="d-flex align-items-center justify-content-start">
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-twitter" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-facebook" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-linkedin" />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-light text-center p-4">
-                                <h5 className="text-uppercase">Lê Văn C</h5>
-                                <p className="m-0">Chuyên Viên Dinh Dưỡng Thú Cưng</p>
-                            </div>
-                        </div>
-                        <div className="team-item item">
-                            <div className="position-relative overflow-hidden">
-                                <img className="img-fluid w-100" src={TeamImg4} alt="" />
-                                <div className="team-overlay">
-                                    <div className="d-flex align-items-center justify-content-start">
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-twitter" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-facebook" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-linkedin" />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-light text-center p-4">
-                                <h5 className="text-uppercase">Phạm Thị D</h5>
-                                <p className="m-0">Hỗ Trợ Khách Hàng</p>
-                            </div>
-                        </div>
-                        <div className="team-item item">
-                            <div className="position-relative overflow-hidden">
-                                <img className="img-fluid w-100" src={TeamImg5} alt="" />
-                                <div className="team-overlay">
-                                    <div className="d-flex align-items-center justify-content-start">
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-twitter" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-facebook" />
-                                        </a>
-                                        <a className="btn btn-light btn-square mx-1" href="#">
-                                            <i className="bi bi-linkedin" />
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-light text-center p-4">
-                                <h5 className="text-uppercase">Nguyễn Thị E</h5>
-                                <p className="m-0">Chăm Sóc Thú Cưng</p>
-                            </div>
-                        </div>
+                        ))}
                     </OwlCarousel>
                 </div>
             </div>
